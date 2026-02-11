@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>YOLO + OpenCV Object Detection</title>
+  <meta name="description" content="Quick-start hub for running real-time object detection with YOLO and OpenCV." />
+  <style>
+    :root {
+      --bg: #0b0f17;
+      --card: #121826;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --accent: #60a5fa;
+      --accent-2: #34d399;
+      --danger: #f87171;
+      --border: #1f2937;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .logo {
+      width: 40px; height: 40px; border-radius: 12px;
+      background: radial-gradient(100% 100% at 30% 20%, #3b82f6 0%, #0ea5e9 60%, #7c3aed 100%);
+      box-shadow: 0 8px 24px rgba(59,130,246,0.35), inset 0 0 22px rgba(255,255,255,0.25);
+    }
+    .title { font-size: 1.35rem; font-weight: 700; letter-spacing: .2px; }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00)), var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    .hero { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 18px; }
+    @media (max-width: 820px) { .hero { grid-template-columns: 1fr; } }
+    .lead { color: var(--muted); margin: 6px 0 0; }
+    .cta { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border);
+      color: var(--text); background: #0f172a; cursor: pointer;
+    }
+    .btn.primary { background: linear-gradient(180deg, #2563eb, #1d4ed8); border-color: #1e40af; }
+    .btn.secondary { background: #0b1220; }
+    .btn .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-2); box-shadow: 0 0 0 3px rgba(52,211,153,0.15); }
+    .panel h3 { margin: 0 0 8px; font-size: 1.05rem; }
+    .panel p { margin: 4px 0 0; color: var(--muted); }
+    .preview {
+      position: relative; aspect-ratio: 16/9; background: #0b1220;
+      border-radius: 12px; border: 1px dashed #293042; overflow: hidden;
+      display: grid; place-items: center; color: var(--muted);
+    }
+    .kbd { display: inline-block; padding: 2px 6px; border-radius: 6px; border: 1px solid var(--border); background: #0b1220; color: #cbd5e1; font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
+    @media (max-width: 820px) { .grid { grid-template-columns: 1fr; } }
+    .foot { margin-top: 28px; color: var(--muted); font-size: 0.95rem; }
+    code.inline { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background: #0b1220; border: 1px solid var(--border); padding: 1px 6px; border-radius: 6px; color: #e5e7eb; }
+    .note { color: var(--muted); font-size: 0.95rem; }
+    .tag { display: inline-block; padding: 3px 8px; border-radius: 999px; background: #0b1220; border: 1px solid var(--border); color: #cbd5e1; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <div class="title">YOLO + OpenCV Object Detection</div>
+          <div class="lead">Run real-time detections from your webcam or videos with Python.</div>
+        </div>
+      </div>
+      <a class="btn secondary" href="./README.md">Open README</a>
+    </header>
+
+    <section class="hero">
+      <div class="card panel">
+        <h3>Get started fast</h3>
+        <p>Two proven routes:</p>
+        <ul>
+          <li>Ultralytics YOLOv8 + OpenCV drawing (quickest)</li>
+          <li>Pure OpenCV DNN + YOLOv3-tiny (no PyTorch dependency)</li>
+        </ul>
+        <div class="cta">
+          <a class="btn primary" href="./README.md#quickstart-ultralytics-yolov8--opencv">
+            <span class="dot"></span> Quickstart (YOLOv8)
+          </a>
+          <a class="btn" href="./README.md#alternative-pure-opencv-dnn--yolov3-tiny">
+            Pure OpenCV DNN
+          </a>
+        </div>
+        <p class="note" style="margin-top:12px;">
+          You only need Python 3.8+ and a webcam. Press <span class="kbd">q</span> to stop the demo.
+        </p>
+      </div>
+
+      <div class="preview card" id="preview">
+        <div>
+          <div style="display:flex;gap:8px;justify-content:center;margin-bottom:8px;">
+            <span class="tag">YOLO</span>
+            <span class="tag">OpenCV</span>
+            <span class="tag">Real-time</span>
+          </div>
+          <div>Run the detector locally with Python</div>
+          <div style="margin-top:6px;font-size:0.95rem;">See commands in the README</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card panel">
+        <h3>What you’ll get</h3>
+        <ul>
+          <li>High-accuracy detections from pre-trained YOLO models</li>
+          <li>Real-time webcam inference with FPS overlay</li>
+          <li>Clean, minimal Python examples you can extend</li>
+        </ul>
+      </div>
+      <div class="card panel">
+        <h3>Next steps</h3>
+        <ul>
+          <li>Swap webcam for video or RTSP streams</li>
+          <li>Enable GPU (CUDA) for higher FPS</li>
+          <li>Export ONNX and run with cv2.dnn or ONNX Runtime</li>
+        </ul>
+      </div>
+    </section>
+
+    <p class="foot">
+      Need help? Open the README or file an issue in your repo. Happy building!
+    </p>
+  </div>
+</body>
+</html>
